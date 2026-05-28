@@ -1,119 +1,208 @@
 # 4-Bit SAR ADC Design Using Custom CMOS Logic in Cadence
 
-## Overview
-
-This project presents the design and simulation of a 4-bit Successive Approximation Register (SAR) Analog-to-Digital Converter implemented using custom CMOS logic in Cadence Virtuoso.
-
-The complete ADC was designed from transistor level using basic NMOS and PMOS transistors without using predefined digital blocks. The project includes the design of SAR logic, D flip-flops, comparator, R-2R DAC, clock synchronization, and analog-digital interfacing.
-
-Transient analysis was performed to verify successful analog-to-digital conversion.
+Designed and simulated a fully custom 4-bit Successive Approximation Register (SAR) ADC using transistor-level CMOS circuits in Cadence Virtuoso.  
+The project includes custom-designed Sample & Hold, Comparator, SAR Logic, D Flip-Flops, and R-2R DAC blocks with transient verification of complete ADC functionality.
 
 ---
 
-## Project Objectives
+# 1. Complete ADC Architecture
 
-- Design a fully custom 4-bit SAR ADC
-- Implement SAR logic using D flip-flops
-- Design transistor-level digital and analog blocks
-- Integrate R-2R DAC with comparator and SAR control logic
-- Perform transient simulations for ADC verification
-- Understand timing synchronization between analog and digital sections
+The full SAR ADC system was integrated using custom analog and digital building blocks.
 
----
+![Complete ADC Architecture](image/ADC-with_blocks.png)
 
-## Tools Used
-
-- Cadence Virtuoso
-
----
-
-## ADC Architecture
-
-The SAR ADC consists of the following blocks:
-
-1. Sample and Hold
-2. Comparator
-3. SAR Logic
-4. D Flip-Flops
-5. R-2R DAC
-6. Clock and Control Logic
+### Included Blocks
+- Sample & Hold Circuit
+- Comparator
+- SAR Logic
+- D Flip-Flops
+- R-2R DAC
+- Clock and Reset Control
 
 ---
 
-## Key Features
+# 2. Sample and Hold Circuit
 
-- Fully custom transistor-level implementation
-- Built using basic NMOS and PMOS devices
-- 4-bit SAR conversion logic
-- R-2R ladder DAC architecture
-- Positive-edge triggered SAR logic
-- Negative-edge triggered comparator operation
-- Mixed-signal integration in Cadence
-- Functional verification using transient analysis
+A Sample & Hold (S/H) circuit was designed to sample the analog input before conversion.
 
----
+![Sample and Hold](image/sample&hold.png)
 
-## Working Principle
-
-1. The analog input signal is sampled.
-2. SAR logic starts conversion from MSB to LSB.
-3. The R-2R DAC generates reference voltages based on SAR output.
-4. Comparator compares DAC output with sampled input.
-5. Comparator output updates SAR register bit-by-bit.
-6. Final 4-bit digital output represents the analog input value.
+### Observation
+- Analog input was sampled and held during conversion.
+- Op-amp buffering improved signal stability.
 
 ---
 
-## Comparator Timing
+# 3. Dynamic Comparator Design
+
+A clocked comparator was designed using transistor-level CMOS implementation.
+
+## Comparator Core
+
+![Comparator Core](image/comparator_outputpart.png)
+
+---
+
+## Comparator Output Stage
+
+![Comparator Output](image/comparator_output-holder.png)
+
+### Features
+- Dynamic clocked operation
+- Negative-edge triggered comparison
+- CMOS regenerative structure
+- Fast decision making during SAR conversion
+
+---
+
+# 4. D Flip-Flop Design
+
+Custom D Flip-Flops were designed using basic NMOS and PMOS transistors for SAR register implementation.
+
+![D Flip-Flop](image/Dflipflop_basicmodel.png)
+
+### Observation
+- Positive-edge triggered operation
+- Used for sequential SAR bit storage
+- Fully transistor-level implementation
+
+---
+
+# 5. SAR Logic Design
+
+The SAR control logic was implemented using cascaded D Flip-Flops and control circuitry.
+
+![SAR Logic](image/SAR-logic.png)
+
+### Features
+- Bit-by-bit successive approximation
+- Positive-edge triggered SAR updates
+- Sequential MSB-to-LSB conversion process
+
+---
+
+# 6. R-2R DAC Design
+
+A 4-bit R-2R ladder DAC was implemented for analog voltage generation during SAR conversion.
+
+![R-2R DAC](image/DAC.png)
+
+### Observation
+- DAC generated reference voltages based on SAR outputs
+- Ladder structure provided binary-weighted analog output
+- Op-amp stage used for signal conditioning and buffering
+
+---
+
+# 7. DAC Output for Sampled Inputs
+
+DAC output behavior was verified against varying sampled analog inputs.
+
+![DAC Output](image/DAC_output_for_sampled_values.png)
+
+### Observation
+- DAC output followed quantized analog levels
+- Stepwise approximation behavior observed clearly
+
+---
+
+# 8. Complete ADC Transient Simulation
+
+Full ADC transient simulation was performed to verify overall conversion operation.
+
+![ADC Output Waveforms](image/ALL_in_one_output.png)
+
+### Signals Verified
+- Analog Input
+- Sample & Hold Output
+- Comparator Output
+- Clock Signal
+- SAR Register Outputs (D3-D0)
+- DAC Output
+- Reset Signal
+
+### Observation
+- Successful bit-by-bit SAR conversion achieved
+- Digital outputs updated sequentially
+- DAC and comparator interaction verified successfully
+
+---
+
+# Working Principle
+
+1. The analog input signal is sampled using the Sample & Hold circuit.
+2. SAR logic begins approximation from the MSB.
+3. The R-2R DAC generates corresponding analog reference voltages.
+4. Comparator compares sampled input with DAC output.
+5. Comparator output updates SAR register bits sequentially.
+6. Final 4-bit digital code represents the analog input voltage.
+
+---
+
+# Clocking Strategy
 
 - Comparator operates on negative clock edge
-- SAR register updates on positive clock edge
+- SAR logic updates on positive clock edge
 
-This timing separation helps avoid logic conflicts during conversion.
-
----
-
-## Simulation Results
-
-Transient analysis was performed to verify:
-
-- SAR bit-by-bit approximation
-- Comparator operation
-- DAC voltage generation
-- Correct digital output generation
-
-The ADC successfully converts analog input signals into corresponding 4-bit digital outputs.
+This timing separation improves synchronization between analog and digital sections.
 
 ---
 
-## Learning Outcomes
+# Tools Used
 
-Through this project, the following concepts were understood practically:
-
-- SAR ADC architecture
-- CMOS digital design
-- Clock synchronization
-- DAC operation
-- Comparator behavior
-- Mixed-signal circuit integration
-- Timing analysis in ADC systems
+- Cadence Virtuoso
+- Spectre Simulator
+- Analog Design Environment (ADE)
 
 ---
 
-## Future Improvements
+# Key Features
+
+- Fully Custom 4-Bit SAR ADC
+- Transistor-Level CMOS Design
+- Custom Dynamic Comparator
+- D Flip-Flop Based SAR Logic
+- R-2R Ladder DAC
+- Sample & Hold Circuit
+- Positive and Negative Edge Clock Synchronization
+- Mixed-Signal Integration
+- Transient Analysis Verification
+
+---
+
+# Learning Outcomes
+
+This project provided practical understanding of:
+
+- SAR ADC Architecture
+- Analog and Digital CMOS Design
+- Comparator Design
+- Clock Synchronization
+- R-2R DAC Operation
+- Sequential SAR Approximation
+- Mixed-Signal Simulation in Cadence
+- Transient Analysis and Debugging
+
+---
+
+# Future Improvements
 
 - Increase ADC resolution
-- Reduce conversion delay
-- Add asynchronous SAR logic
+- Optimize conversion speed
+- Reduce power consumption
 - Perform DNL/INL analysis
-- Optimize power consumption
-- Add layout design and post-layout simulations
+- Add layout and post-layout simulations
+- Implement asynchronous SAR architecture
 
 ---
 
+# Conclusion
+
+Successfully designed and simulated a fully custom 4-bit SAR ADC using transistor-level CMOS logic in Cadence Virtuoso.  
+All major analog and digital building blocks were integrated and verified through transient simulations, demonstrating successful analog-to-digital conversion functionality.
 
 ---
 
-## Author
+# Author
 
 Designed and simulated as a student mixed-signal VLSI project using Cadence Virtuoso.
